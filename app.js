@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000)
 
 
 app.set ('view engine', 'ejs');
+app.use(body.bodyParser.urlencoded({ extended: true}));
 
 
 
@@ -17,6 +19,21 @@ app.get('/view', function (req, res) {
   );
 }) 
 
+app.post('/postClientData', function (req. res) {
+
+    console.log("body: ", req.body)
+    console.log("user Name: ", req.body.userName)
+    // console.log ("params: ", req.params['userName']);
+
+    //myVariableServer = req.body.userName;
+
+
+res.render('index', 
+{
+  'myVariableClient' : req.body.userName
+}
+);
+})
 
 app.get('/', function (req, res) {
   res.send('<h1>Hello World From Express</h1>')
@@ -27,6 +44,6 @@ app.get('/index', function (req, res) {
 })
 
 
-app.listen(3000)
+//app.listen(3000)
 
 app.listen(port, () => console.log('Server is running .... on ${ port }' ));
