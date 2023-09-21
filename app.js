@@ -2,11 +2,36 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000)
+const { MongoClient, ServerApiVersion } = require('mongodb');
+// mongo connection goes here
 
 
 app.set ('view engine', 'ejs');
 app.use(body.bodyParser.urlencoded({ extended: true}));
 
+  //Create a MongoClient with a MongoClientOptions object to set the Stable API version
+  const client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      depreciationErrors: true'
+    }
+  });
+
+  async function run() {
+    try {
+      //Connect the client to the server (optional starting in v4.7)
+      await client.connect();
+      //Send a ping to confirm a succesful connection
+      await client.db("admin").command({ ping:1 });
+      console.log("Pinged your deployment. You succesfully connected to MongoDB!");
+    } finally {
+      //Ensures that the client will close when you finish/error
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+  
 
 
 let myVariableServer = 'soft coded server data';
